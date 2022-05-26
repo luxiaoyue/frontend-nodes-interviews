@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #box {
+        width: 800px;
+        height: 200px;
+        border: 2px black solid;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+      }
+      .item {
+        width: 200px;
+        height: 100px;
+        border: 2px red solid;
+      }
+      .item1 {
+        width: 50px;
+        height: 100px;
+        border: 2px wheat solid;
+      }
+      #box .item:nth-child(2*n) {
+        flex-shrink: 1;
+      }
+      #box .item:nth-child(1) {
+        flex-shrink: 0;
+      }
+      #box .item:nth-child(3) {
+        flex-shrink: 0;
+      }
+      #box .item:nth-child(5) {
+        flex-shrink: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box" id="box">
+      <div class="item"></div>
+      <div class="item1"></div>
+      <div class="item"></div>
+      <div class="item1"></div>
+      <div class="item"></div>
+    </div>
+  </body>
+</html>

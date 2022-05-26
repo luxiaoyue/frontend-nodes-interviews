@@ -54,8 +54,9 @@
 
 ### react和vue孰优孰劣
 
-- 
-- vue适合小而精的项目，react则更适用于偏大的项目，但是立住这个结论的支点是不一样的，vue的组件由于一些复杂逻辑的复用方式和组件可应用模式的不足，以至于在大型项目中复用性与设计性是不如react的，但是在小而精的项目里，vue更友好的书写方式，更简化的代码与更声明式的指令都是很棒的优势与特点，而相反的react在中大型项目中能更好的完成vue的不足项
+- vue适合小而精的项目，react则更适用于偏大的项目，
+- 但是立住这个结论的支点是不一样的，vue的组件由于一些复杂逻辑的复用方式和组件可应用模式的不足，以至于在大型项目中复用性与设计性是不如react的，
+- 但是在小而精的项目里，vue更友好的书写方式，更简化的代码与更声明式的指令都是很棒的优势与特点，而相反的react在中大型项目中能更好的完成vue的不足项
 
 ## 2.react首次渲染的流程
 
@@ -128,13 +129,13 @@
 
 - #### 虚拟dom转换为真实dom
 
-  - 使用React.createElement或JSX编写React组件，实际上所有的 JSX 代码最后都会转换成React.createElement(...) ，Babel帮助我们完成了这个转换的过程。
-  - createElement函数对key和ref等特殊的props进行处理，并获取defaultProps对默认props进行赋值，并且对传入的孩子节点进行处理，最终构造成一个虚拟DOM对象
-  - ReactDOM.render将生成好的虚拟DOM渲染到指定容器上，其中采用了批处理、事务等机制并且对特定浏览器进行了性能优化，最终转换为真实DOM
+  - 使用React.createElement或JSX编写React组件，实际上所有的 JSX 代码最后都会转换成React.createElement(...) ，Babel帮助我们完成了这个转换的过程；
+  - createElement函数对key和ref等特殊的props进行处理，并获取defaultProps对默认props进行赋值，并且对传入的孩子节点进行处理，最终构造成一个虚拟DOM对象；
+  - ReactDOM.render将生成好的虚拟DOM渲染到指定容器上，其中采用了批处理、事务等机制并且对特定浏览器进行了性能优化，最终转换为真实DOM；
 
 ## 4.JSX
 
-- 定义:jsx是一种语法糖,在使用中会被babel编译转化成JS代码。`JSX` 就是为了简化直接调用 `React.createElement()` 方法
+- 定义:jsx是一种语法糖，在使用中会被babel编译转化成JS代码。`JSX` 就是为了简化直接调用 `React.createElement()` 方法
 
   > 1.JSX` 通过 `babel` 的方式转化成 `React.createElement` 执行，返回值是一个对象，也就是虚拟 `DOM
   > 2.在babel编译时会判断JSX的首字母：
@@ -157,7 +158,7 @@
 
 ## 5.babel的原理
 
-- parse：第一步是babel使用babylon将原始代码转换为抽象语法树；
+- parse：第一步是babel使用babylon将原始代码转换为**抽象语法树；**
 - transform：第二步是babel通过babel-traverse对前面的抽象语法树进行遍历修改并获得新的抽象语法树；
 - generator：第三步是babel使用babel-generator将抽象语法树转换为代码；
 
@@ -204,7 +205,9 @@
 
 #### 使用规则：
 
-- 只能在最顶层调用hooks，不要写在循环、条件语句或者嵌套方法中。遵循这个方式，你能保证每次组件渲染时Hooks都是按照相同的顺序被调用。这能使React在多个useState和useEffect的情形下正确保存state数据。
+- 只能在最顶层调用hooks，不要写在循环、条件语句或者嵌套方法中。
+  - 遵循这个方式，你能保证每次组件渲染时Hooks都是按照相同的顺序被调用。
+  - 这能使React在多个useState和useEffect的情形下正确保存state数据。
 - 只能在function组件里调用hooks，不在普通的JS方法里调用HOOKs
 
 #### 优点
@@ -259,6 +262,13 @@
 - useEffect(function{})初始化和更新都会执行，相当于componentDidMount  componentDidUpdate
 - useEffect返回一个函数，这个函数会在组件卸载时执行。componentDidMount componentWillUnmount 的功能
 - 副作用：死循环，监听state+set ，可以加判断；初始化调用axios，可以使用[]，只在初始化调用，以后不再调用了；
+- 执行时机：**组件渲染之后才会调用**
+
+#### useLayoutEffect
+
+- useLayoutEffect和原来componentDidMount&componentDidUpdate一致，**在react完成DOM更新后马上同步调用的代码，会阻塞页面渲染。**
+- 比如对 DOM 的操作，就需要使用 useLayoutEffect，useLayoutEffect 中的副作用会在 DOM 更新之后同步执行。
+- 而**useEffect**是会在整个**页面渲染完才会调用**的代码。
 
 #### useMemo-针对当前组件的高开销的计算
 
@@ -266,7 +276,7 @@
 
   ![image-20220428182336728](C:\Users\cuiyue\AppData\Roaming\Typora\typora-user-images\image-20220428182336728.png)
 
-- useMemo说白了就是缓存一个函数执行或者不执行 如果依赖传入的变量 变了 函数肯定执行 没变肯定就不执行 但是如果不套一层 useMemo 那么只要 组件更新 里面的东西就都会渲染 ；
+- useMemo说白了就是缓存一个函数执行或者不执行 如果依赖传入的变量 变了 函数肯定执行 没变肯定就不执行 但是如果不套一层 useMemo 那么只要组件更新 里面的东西就都会渲染 ；
 
 #### useCallback——优化针对子组件的渲染
 
@@ -279,6 +289,8 @@
   ![image-20220428183052230](C:\Users\cuiyue\AppData\Roaming\Typora\typora-user-images\image-20220428183052230.png)
 
 - 父组件使用useCallback的时候 子组件如果想去响应父组件的useCallback的时候 如果用的函数组件 就要使用React.memo配合 如果是类组件就要用 pureComponent配合 是这样理解的吧
+
+- 本身可以用useCallback嘛：
 
 #### useRef
 
@@ -433,7 +445,10 @@
   >
   > props在组件内不可修改，state在组件内部可以进行修改。
 
-- refs
+
+#### ref
+
+忘了
 
 
 ## 13.super和super(props)
@@ -466,7 +481,13 @@
 
   - 前端node服务器接收到请求，根据路径加载各种组件,
 
+  - 拿到请求的数据，作为props、context等传入组件
+
   - 编译生成一个有网页内容的html字符串返回给客户端，
+
+  - 注水：
+
+  - 脱水：
 
   - 浏览器拿到这个html字符串就可以直接渲染页面，
 
@@ -518,6 +539,8 @@
 
 #### 更新  
 
+- 更新new props  setState
+
 - getDervedStateFromProps   ：将父组件传递过来的 `props` **映射** 到子组件的 `state` 上面，
 
 
@@ -560,6 +583,10 @@
     }
   }, []);
   ```
+
+#### <u>自定义HOOKS</u>
+
+
 
 ## 16.样式
 
@@ -619,7 +646,6 @@
 >    >
 >    > 在页面上点击按钮，事件开始在**原生DOM上走捕获冒泡流程**，React监听的是**document上的冒泡阶段**；事件冒泡到document后，React将事件再派发到组件树中，然后事件开始在组件树DOM中走**捕获冒泡**流程。（React上监听的是document上的事件）
 >
->    
 
 [(13条消息) React中的合成事件_WindrunnerMax的博客-CSDN博客_react合成事件](https://blog.csdn.net/qq_40413670/article/details/112913155)
 
@@ -710,7 +736,8 @@ BrowerRouter：  URL采用真实的URL资源
 ## 21.<u>react diff原理</u>
 
 - 假设：不同类型的元素产生不同的树；元素在不同的渲染下不保持稳定
-- 策略：跨层级的平移少；相同类型产生相同的树，不同类型产生不同的树；同一层级可通过key区分
+- 策略：
+  - 跨层级的平移少；相同类型产生相同的树，不同类型产生不同的树；同一层级可通过key区分
 - tree diff 优化：只针对同一层级的dom比较；跨层级的平移少，不平移 而是删除新建；
 - component diff 优化：不同类型不进行比较 直接删除创建；相同类型通过 shouldComponnetUpdate来进行比较；
 - element diff 优化：通过key判断旧集合是否存在相同的节点，无  创建，有 平移 顺序优化；
