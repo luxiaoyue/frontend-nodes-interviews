@@ -1,145 +1,8 @@
 
 
-# 场景题
-
-### 水平居中
-
-- margin：auto
-
-### 垂直居中
-
-```
-
-```
-
-
-
-### 三角形
-
-```
-.div{
-	width:0;
-	height:0;
-	border:20px solid;
-	border:transparent transparent pink transparent;
-}
-```
-
-
-
-### 两栏布局
-
-```
-.left{
-	float:left;
-	width:100px;
-}
-.right{
-	position:absolute;
-	left:100px;
-}
-
-.left{
-	float:left;
-	width:100px;
-}
-.right{
-	position:absolute
-	margin-left:100px;
-}
-
-.left{
-	float:left;
-	width:100px;
-}
-.right{
-	overflow:hidden;
-	margin-left:100px;
-}
-
-.outer{
-	display:flex;
-}
-.left{
-	width:100px;
-}
-.right{
-	flex:1;
-}
-```
-
-### 三栏布局
-
-```
-.left{
-	width:100px;
-	position:absolute;
-	left:0;
-}
-.center{
-	margin-left:100px;
-	margin-right:100px;
-}
-.right{
-	width:100px;
-	position:absolute;
-	right:0px;
-}
-
-.left{
-	float:left;
-	width:100px;
-}
-.right{
-	float:right;
-	width:100px
-}
-.center{
-	margin-left:100px;
-	margin-right:100px;
-}
-
-.outer{
-	display:flex;
-}
-.left{
-	width:100px;
-}
-.center{
-	flex:1;
-}
-.right{
-	width:100px
-}
-```
-
-### 填充
-
-一个高度自适应的div，里面有两个div，一个高度100px，希望另一个填满剩下的高度问题怎么解决？
-
-```
-.content { height: calc(100%-100px); }
-.container { position:relative; } .content { position: absolute; top: 100px; bottom: 0; }
-.container { display:flex; flex-direction:column; } .content { flex:1; }
-```
-
-### 字体<12
-
-```
-.shrink {
-    -webkit-transform: scale(0.8);
-    -o-transform: scale(1);
-    display: inilne-block;
-}
-```
-
-
-
 # CSS
 
-<img src="C:\Users\cuiyue\AppData\Roaming\Typora\typora-user-images\image-20220427091434303.png" alt="image-20220427091434303"  />
-
-
+<img src="C:\Users\cuiyue\AppData\Roaming\Typora\typora-user-images\image-20220427091434303.png" alt="image-20220427091434303" style="zoom: 50%;" />
 
 
 
@@ -158,92 +21,16 @@
 - filter
 - will-change
 
-## CSS优化和提升性能
-
-#### 加载性能
-
-- css压缩，将写好的css进行打包压缩，可以减小文件体积
-- css单一样式，margin-bottom/margin-left比magin：top 0 bottom 0 要优秀
-- 减少使用@import，建议使用link，因为后者在页面加载时一起加载，前者是等待页面加载完成之后再进行加载
-
-#### 选择器性能
-
-- 避免使用通配规则，如*{}计算次数惊人，只对需要用到的元素进行选择。
-- 尽量少的去对标签进行选择，而是用class。
-- 尽量少的去使用后代选择器，降低选择器的权重值。后代选择器的开销是最高的，尽量将选择器的深度降到最低，最高不要超过三层，更多的使用类来关联每一个标签元素。
-- 了解哪些属性是可以通过继承而来的，然后避免对这些属性重复指定规则。
-
-#### 渲染性能
-
-- 慎重使用高性能属性：浮动、定位。
-- 尽量减少页面重排、重绘。
-- 属性值为0时，不加单位。
-- 不使用@import前缀，它会影响css的加载速度。
-- 选择器优化嵌套，尽量避免层级过深。
-- 正确使用display的属性，由于display的作用，某些样式组合会无效，徒增样式体积的同时也影响解析性能。
-
-#### 可维护性 健壮性
-
-- 将具有相同属性的样式抽离出来，整合并通过class在页面中进行使用，提高css的可维护性。
-- 样式与内容分离：将css代码定义到外部css中。
-
 ## important points
 
 #### <u>RAF RIC</u>
 
 - **requestAnimationFrame：** 告诉浏览器在下次重绘之前执行传入的回调函数(通常是操纵 dom，更新动画的函数)；由于是每帧执行一次，那结果就是每秒的执行次数与浏览器屏幕刷新次数一样，通常是每秒 60 次。
-- **requestIdleCallback：**会在浏览器空闲时间执行回调，也就是允许开发人员在主事件循环中执行低优先级任务，而不影响一些延迟关键事件。如果有多个回调，会按照先进先出原则执行，但是当传入了 timeout，为了避免超时，有可能会打乱这个顺序。
+- **requestIdleCallback：**: 会在浏览器空闲时间执行回调，也就是允许开发人员在主事件循环中执行低优先级任务，而不影响一些延迟关键事件。如果有多个回调，会按照先进先出原则执行，但是当传入了 timeout，为了避免超时，有可能会打乱这个顺序。
 - 可以深入的去问浏览器每一帧的渲染流程 [requestIdleCallback 和 requestAnimationFrame 详解](https://juejin.cn/post/6844903848981577735)
 - requestAnimationFrame在每一帧的时间间隔里都会执行一次，之前是使用setTimeout 但是可能会造成卡帧的问题；
 
-#### requestAnimationFrame
-
-- 使用：异步的，传入的函数会在页面重绘之前执行
-
-- 写法：
-
-  - ##### handlerId = requestAnimationFrame(callback)
-
-  - 传入一个回调函数，即动画函数；返回值handlerId为浏览器定义的、大于0的整数，唯一标识了该回调函数在列表中位置；
-
-- 执行过程
-
-  - 首先判断document.hidden属性是否为true，页面是可见的状态下才执行；
-  - 浏览器清空上一轮的动画函数
-  - 以`<handlerId , callback>` 进入到动画帧请求回调函数列；
-  - 浏览器会遍历动画帧请求函数列表，根据handlerId的大小，依次执行相应的动画函数；
-
-- **setTimeout**和**requestAnimationFrame**
-
-  - 如果使用setTimeout的话，是通过一个时间间隔来改变图像的位置，从而达到动画的效果；但是使用settimeout会存在一些问题 卡断、丢帧的现象。
-
-  - 原因：首先setTimeout并不是很准确 存在误差，其次刷新频率受屏幕分辨率和屏幕尺寸的影响，不同的屏幕频率不一致。——>`setTimeout`的执行步调和屏幕的刷新步调不一致，从而引起**丢帧**现象，**`setTimeout`的执行只是在内存中对图像属性进行改变，这个变化必须要等到屏幕下次刷新时才会被更新到屏幕上**。如果两者的步调不一致，就可能会导致中间某一帧的操作被跨越过去，而直接更新下一帧的图像。
-
-  - **requestAnimationFrame**，是由系统决定回调函数的执行时机，**它能保证回调函数在屏幕每一次的刷新间隔中只被执行一次**，这样就不会引起丢帧现象，也不会导致动画出现卡顿的问题。
-
-    ```
-    var progress = 0;
-    //回调函数
-    function render() {  
-      progress += 1; //修改图像的位置  
-      if (progress < 100) {  //在动画没有结束前，递归渲染    
-        window.requestAnimationFrame(render); 
-      }
-    }
-    //第一帧渲染
-    window.requestAnimationFrame(render);
-    ```
-
-  - 优势：cpu节能 函数节流
-
-#### ！！！CSS3动画比基于脚本的动画有哪些优势？
-
-跟脚本动画相比，使用`CSS3`动画具有以下优势：
-
-- 易于使用，任何人都可以在不了解`javascript`的情况下创建它们；
-- 即使在合理的系统负载下也能很好的执行。
-- 由于简单的动画在`javascript`中的效果比较差，因此渲染引擎使用跳帧技术来使动画流畅进行；
-- 允许浏览器控制动画序列，通过建撒谎哦在当前不可见的选项卡中执行的动画的更新频率来优化性能和效率；
+#### 
 
 #### css溢出
 
@@ -269,22 +56,11 @@
 
 如何判断一个元素 CSS 样式溢出，从而可以选择性的加 title 或者 Tooltip?
 
-如何让 CSS 元素左侧自动溢出（... 溢出在左侧）？  direction: rtl;
+如何让 CSS 元素左侧自动溢出（... 溢出在左侧）？
 
 #### 为什么有时候用translate改变位置而不是定位
 
-- transform创建的是图层，不会导致重绘和重排；translate是transform的一个属性
-- translate改变位置时，元素依然会占据其原始空间；而改变绝对定位会触发重新布局，进而触发重绘和复合。
 
-#### ！！！伪元素 伪类
-
-#### 奇数还是偶数的字体
-
-- 使用偶数的字体
-
-#### 设置元素浮动后，该元素的 display 值会如何变化？
-
-- 设置元素浮动后，该元素的`display`值自动变成`block`。
 
 ## 基础
 
@@ -301,14 +77,6 @@
     - 如果祖先是块级元素，由祖先的 padding edge 形成。
     - 如果祖先是内联元素，取决于祖先的direction属性。
     - 如果没有祖先，根元素盒子的内容边界确定为包含块。
-
-#### 继承
-
-- 可以继承的样式属性： `font-size`、`font-family`、`color`、`list-style`、`cursor`、`ul`, `li`, `dl`, `dd`, `dt`;
-
-- 不可继承的样式属性： `width`、`height`、 `border`、 `padding`、 `margin`、 `background`；
-
-  
 
 #### 块元素、行内元素、行内块元素
 
@@ -373,37 +141,26 @@ id选择器、类选择器、伪类选择器、标签选择器、伪元素选择
 
 ## 动画
 
-#### transition：过渡 
+transition：过渡 
 
-- 给属性添加过渡效果；当property发生改变时，触发动画
-- **transition: property duration timing-function delay;**
-- 需要事件触发，所以没法在网页加载时自动发生
-- 是一次性的，不能重复发生，除非一再触发
-- 只能定义开始状态和结束状态，不能定义中间状态，也就是说只有两个状态
-- 一条transition规则，只能定义一个属性的变化，不能涉及多个属性。好像是错的 可以设置多个 transition:width 1s,height ease-in-out 2s;是可以的
-
+> 给属性添加过渡效果；一次性的，也就是单个动作
+>
 > ```
->transition: opacity 1s ease 0;
+>transition: opacity 1s;
 > //相当于
->transition-property: all; /* 过渡属性 */
+> transition-property: all; /* 过渡属性 */
 > transition-duration: 0; /* 耗时 */
 > transition-timing-function: ease; /* 效果，默认 ease（缓入缓出） */
 > transition-delay: 0; /* 延迟 */
 > ```
 > 
 
-#### 动画animation
+动画animation
 
-- 多个动作，有多个关键帧keyframes
-
-- **animation: name duration timing-function delay iteration-count direction play-state fill-mode;**
-
-  ![image-20220522152116901](C:\Users\cuiyue\AppData\Roaming\Typora\typora-user-images\image-20220522152116901.png)
-
-- 
-
+> 多个动作，有多个关键帧
+>
 > ```
->animation: forward 4s; /* 执行 forward 动画，耗时 4s */
+> animation: forward 4s; /* 执行 forward 动画，耗时 4s */
 > /* 三个关键帧：
 > 此例子定义了三个关键帧，如果要是不写0 100 默认是原样式
 > */
@@ -525,10 +282,7 @@ transform：向元素应用2D或3D转换，允许我们对元素进行旋转、�
 
 absolute和flex
 
-#### display float position的关系
-
-- display：none；float和position都不起作用；
-- 
+display float position的关系
 
 ## 盒子模型
 
@@ -627,35 +381,48 @@ absolute和flex
 
 [flex深度剖析-解决移动端适配问题！ - 掘金 (juejin.cn)](https://juejin.cn/post/6844904097850589191)
 
-- 弹性布局，任何一个容器都可以指定为弹性布局；采用flex布局的属性称为flex容器，所有子元素称为容器的成员，flex项目。
-
-
+> 弹性布局，任何一个容器都可以指定为弹性布局；采用flex布局的属性称为flex容器，所有子元素称为容器的成员，flex项目。
+>
 > ```
->//比如这样以后div就具有弹性了
+> //比如这样以后div就具有弹性了
 > div{
-> display:flex;
+>  display:flex;
 > }
->  ```
-> 
+> ```
+>
+> 使用flex后，float、clear、vertical-align均失效；
+>
+> 在容器上：
+>
+> > flex-direction：主轴方向      flex-wrap：定义是否换行          
+> >
+> > 简写为flex-flow
+> >
+> > **justify-content：**主轴上的对齐方式
+> >
+> > ​	 flex-start | flex-end | center | space-between | space-around;
+> >
+> > **align-items：**交叉轴的对齐方式
+> >
+> > ​	flex-start | flex-end | center | baseline | stretch;
+> >
+> > align-content： 多根轴线的对齐方式
+>
+> 项目上：
+>
+> > order:项目的排列顺序，数值越小越靠前
+> >
+> > **flex-grow**：定义项目的放大比例，默认为0(有剩余空间也不放大)
+> >
+> > flex-shrink：缩小比例
+> >
+> > **flex-basis**：在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
+> >
+> > flex
+> >
+> > align-self
 
-- 使用flex后，float、clear、vertical-align均失效；
-
-- 在容器上：
-  - flex-direction：主轴方向      flex-wrap：定义是否换行          
-  - 简写为flex-flow
-  - **justify-content：**主轴上的对齐方式：flex-start | flex-end | center | space-between | space-around;
-  - **align-items：**一根交叉轴的对齐方式：flex-start | flex-end | center | baseline | stretch;
-  - **align-content：** 多根轴线的对齐方式
-
-- 项目上：
-  - order:项目的排列顺序，数值越小越靠前
-  - **flex-grow**：定义项目的放大比例，默认为0(有剩余空间也不放大)
-  - **flex-shrink：**缩小比例，默认为1，可缩小
-  - **flex-basis：**在分配多余空间之前，项目占据的主轴空间（main size）。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
-  - **align-self：**属性用于设置弹性元素自身在侧轴（纵轴）方向上的对齐方式。
-
-- **flex：1 ；相当于flex：1 1 auto**； flex: 是flex-grow、flex-shrink 、flex-basis的简写，默认值为0 1 auto，即不可放大、可缩小、大小与容器元素大小一致，后两个属性可选。
-
+flex：1 ；相当于flex：1 1 auto；
 
 ## 浮动 清除浮动
 
@@ -746,7 +513,7 @@ absolute和flex
 
 - 媒体查询时指针对不同的设备、特定的设备特征或者参数进行定制化的修改网站样式；
 
-- 可以通过给link 添加media属性来指定样式文件对什么设备生效，不指定默认all。media：all /print/ screen/ speech
+- 可以通过给link 添加media属性来指定样式文件对什么设备生效，不指定默认all。media：all print screen speech
 
 - 还可以通过@media 让CSS规则在特定的条件下才能生效。
 
@@ -868,15 +635,11 @@ italic是使用当前字体的斜体字体，oblique只是单纯地让文字倾�
 le=1.0,user-scalable=no"/>
 ```
 
-## CSS 解析
+## CSS解析
 
 #### 解析规则
 
-- 从上到下，从右到左，这样会提高查找选择器所对应的元素的效率（至于原因，有兴趣的童鞋可以自行去了解）。
-
 #### CSS规范 分类方法
-
-
 
 ## CSS预处理/后处理
 

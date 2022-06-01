@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>checkbox</title>
+    <style>
+      .main {
+        height: 100px;
+        width: 300px;
+        padding: 50px;
+        background-color: aliceblue;
+      }
+      .box {
+        width: 25px;
+        height: 25px;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      function clearEventBubble(evt) {
+        if (evt.stopPropagation) evt.stopPropagation();
+        else evt.cancelBubble = true; // 阻止该事件的进一步冒泡
+        if (evt.preventDefault) evt.preventDefault(); // 取消事件的默认动作
+        else evt.returnValue = false;
+      }
+
+      (function () {
+        document.onmousedown = function () {
+          var selList = [];
+          var fileNodes = document.getElementsByTagName("input");
+
+          //点击空白区域取消选中
+          for (var i = 0; i < fileNodes.length; i++) {
+            fileNodes[i].checked = false;
+          }
+
+          //选择
+          for (var i = 0; i < fileNodes.length; i++) {
+            // 返回数组中某个指定的元素位置
+            if (fileNodes[i].className.indexOf("box") != -1) {
+              fileNodes[i].className = "box";
+              selList.push(fileNodes[i]);
+            }
+            var isSelect = true;
+            // 存放鼠标点击初始位置
+            var evt = window.event || arguments[0];
+            var startX = evt.clientX;
+            var startY = evt.clientY;
+
+            // 框选元素
+            var selDiv = document.createElement("div");
+            selDiv.style.cssText =
+              "position:absolute; width:0px; height:0px; border:1px dashed black; z-index:1;  display:none";
+            selDiv.id = "selectDiv";
+            document.body.appendChild(selDiv);
+            selDiv.style.left = startX + "px";
+            selDiv.style.top = startY + "px";
+
+            //current 当前位置
+            var cx = null;
+            var cy = null;
+            clearEventBubble(evt);
+
+            // 移动鼠标
+            document.onmousemove = function () {
+              evt = window.event || arguments[0];
+              if (isSelect) {
+                if (selDiv.style.display == "none") {
+                  selDiv.style.display = "";
+                }
+                // 获取当前鼠标位置
+                cx = evt.clientX;
+                cy = evt.clientY;
+                selDiv.style.left = Math.min(cx, startX) + "px";
+                selDiv.style.top = Math.min(cy, startY) + "px";
+                selDiv.style.width = Math.abs(cx - startX) + "px"; //左右上下不确定
+                selDiv.style.height = Math.abs(cy - startY) + "px";
+
+                // 获取参数
+                var divl = selDiv.offsetLeft;
+                var divt = selDiv.offsetTop;
+                var divw = selDiv.offsetWidth;
+                var divh = selDiv.offsetHeight;
+                var divr = divl + divw;
+                var divb = divt + divh;
+                for (var i = 0; i < selList.length; i++) {
+                  //坑  要计算最右侧最下才可以
+                  let nodel = selList[i].offsetWidth + selList[i].offsetLeft;
+                  let nodet = selList[i].offsetHeight + selList[i].offsetTop;
+
+                  if (
+                    nodel > divl &&
+                    nodet > divt &&
+                    selList[i].offsetLeft < divr &&
+                    selList[i].offsetTop < divb
+                  ) {
+                    selList[i].checked = true;
+                  } else {
+                    selList[i].checked = false;
+                  }
+                }
+              }
+              clearEventBubble(evt);
+            };
+
+            // 放开鼠标，选框消失
+            document.onmouseup = function () {
+              isSelect = false;
+              if (selDiv) {
+                document.body.removeChild(selDiv);
+              }
+
+              selList = null;
+              cx = null;
+              cy = null;
+              selDiv = null;
+              startX = null;
+              startY = null;
+              evt = null;
+            };
+          }
+        };
+      })();
+    </script>
+    <div class="main">
+      <div>
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+      </div>
+      <div>
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+      </div>
+      <div>
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+        <input type="checkbox" class="box" />
+      </div>
+    </div>
+  </body>
+</html>

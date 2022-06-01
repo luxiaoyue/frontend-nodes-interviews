@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function countDown() {
+        document.body.innerHTML = ""; //清空页面内容
+        var nowTimer = +new Date(); //现在时间的毫秒数
+        var valueTimer = +new Date("2022-1-1 12:00"); //用户输入时间毫秒数
+        var timer = (valueTimer - nowTimer) / 1000; //倒计时秒数
+        var d = parseInt(timer / 60 / 60 / 24);
+        d = d < 10 ? "0" + d : d; //天数少于十天前面加0（优化页面）
+        var h = parseInt((timer / 60 / 60) % 24);
+        h = h < 10 ? "0" + h : h; //小时少于十前面加0
+        var m = parseInt((timer / 60) % 60);
+        m = m < 10 ? "0" + m : m; //分钟少于十前面加0
+        var s = parseInt(timer % 60);
+        s = s < 10 ? "0" + s : s; //秒数少于十前面加0
+        document.write(d + "天" + h + "时" + m + "分" + s + "秒");
+      }
+      countDown();
+      setInterval(countDown, 1000);
+    </script>
+  </body>
+</html>
