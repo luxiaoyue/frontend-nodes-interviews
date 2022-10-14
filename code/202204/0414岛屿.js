@@ -42,10 +42,11 @@ function cal(grid) {
       return;
     }
     let count = 0;
-    if (gird[i][j] == 1) {
+    if (gird[i][j] != 0) {
       //相连的
-      gird[i][j] == 2;
-      count++;
+      // gird[i][j] == 2;
+      count += grid[i][j];
+      gird[i][j] == 0;
     }
 
     let n1 = dfs(i - 1, j, gird);
