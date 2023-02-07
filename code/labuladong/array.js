@@ -159,10 +159,62 @@ var maxArea = function (height) {
   for (let i = 0; i < height.length; i++) {
     for (let j = i + 1; j < height.length; j++) {
       let temp = Math.min(height[i], height[j]) * (j - i);
-      console.log("temp", temp);
       res = Math.max(temp, res);
     }
   }
   return res;
 };
 maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]);
+
+var spiralOrder = function (matrix) {
+  let m = matrix.length,
+    n = matrix[0].length;
+  let left = 0,
+    right = n - 1;
+  let top = 0,
+    bottom = m - 1;
+  let res = [];
+  while (res.length <= m * n) {
+    if (left <= right) {
+      if (res.length == m * n) break;
+      for (let i = left; i <= right; i++) {
+        res.push(matrix[top][i]);
+      }
+      console.log("res", res);
+      top++;
+    }
+    if (top <= bottom) {
+      if (res.length == m * n) break;
+      for (let i = top; i <= bottom; i++) {
+        res.push(matrix[i][right]);
+      }
+      console.log("res", res);
+      right--;
+    }
+    if (left <= right) {
+      if (res.length == m * n) break;
+      for (let i = right; i >= left; i--) {
+        res.push(matrix[bottom][i]);
+      }
+      bottom--;
+      console.log("res", res);
+    }
+    if (top <= bottom) {
+      if (res.length == m * n) break;
+      for (let i = bottom; i >= top; i--) {
+        res.push(matrix[i][left]);
+      }
+      console.log("res", res);
+      left++;
+    }
+  }
+  return res;
+};
+
+console.log(
+  spiralOrder([
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+  ])
+);
