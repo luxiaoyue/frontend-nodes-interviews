@@ -1,4 +1,4 @@
-//非0左移
+//非0左移  将所有的0移到最后
 function move(data) {
   for (let i = 0; i < data.length; i++) {
     if (data[i] !== 0) {
