@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <ul></ul>
+    </div>
+    <script>
+        let node=document.getElementById('js-list');
+        let total=3000;
+        let num=4;
+        let batch=total/4;
+        let count=0;//cishu
+        let list=[]
+        function insertFragemt(){
+            const fragemnt=document.createDocumentFragment()
+            for(let i=0;i<num;i++){
+                let item=document.createElement('li');
+                item.innerText=count*num+i;
+                fragemnt.append(item)
+            }
+            node.append(fragemnt);
+            count++;
+            dowhile();
+        }
+        function dowhile(){
+            if(count<batch){
+                requestAnimationFrame(insertFragemt);
+            }
+        }
+        dowhile();
+        node.addEventListener('click',function(e){
+            if(e.target.tagName=='li'){
+                alert(e.target.innerText);
+            }
+        })
+
+    </script>
+</body>
+</html>
