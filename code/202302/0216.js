@@ -1,38 +1,39 @@
-// const HMdistance = (x, y) => {
-//   const tobinary = (num) => {
-//     let res = "";
-//     let a = 0,
-//       i = 0;
-//     while (num != 0) {
-//       a = num % 2;
-//       num = parseInt(num / 2);
-//       res = a + res + "";
-//       i = i * 10;
-//     }
-//     return res;
-//   };
-//   let num1 = tobinary(x);
-//   let num2 = tobinary(y);
-//   console.log(num1, num2);
-//   let len =
-//     num1.length > num2.length
-//       ? num1.length - num2.length
-//       : num2.length - num1.length;
-//   for (let i = 0; i < len; i++) {
-//     if (num1.length > num2.length) {
-//       num2 = "0" + num2;
-//     } else {
-//       num1 = "0" + num1;
-//     }
-//   }
-//   console.log(num1, num2);
-//   let res = 0;
-//   for (let i = 0; i < num1.length; i++) {
-//     res = res + Number(num1.charAt(i) ^ num2.charAt(i));
-//     console.log(res);
-//   }
-//   return res;
-// };
+// 明翰距离
+const HMdistance = (x, y) => {
+  const tobinary = (num) => {
+    let res = "";
+    let a = 0,
+      i = 0;
+    while (num != 0) {
+      a = num % 2;
+      num = parseInt(num / 2);
+      res = a + res + "";
+      i = i * 10;
+    }
+    return res;
+  };
+  let num1 = tobinary(x);
+  let num2 = tobinary(y);
+  console.log(num1, num2);
+  let len =
+    num1.length > num2.length
+      ? num1.length - num2.length
+      : num2.length - num1.length;
+  for (let i = 0; i < len; i++) {
+    if (num1.length > num2.length) {
+      num2 = "0" + num2;
+    } else {
+      num1 = "0" + num1;
+    }
+  }
+  console.log(num1, num2);
+  let res = 0;
+  for (let i = 0; i < num1.length; i++) {
+    res = res + Number(num1.charAt(i) ^ num2.charAt(i));
+    console.log(res);
+  }
+  return res;
+};
 
 // console.log(HMdistance(7, 8));
 // var findAnagrams = function (s, p) {
