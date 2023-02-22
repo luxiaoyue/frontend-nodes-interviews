@@ -166,24 +166,102 @@ const flatten1 = (list) => {
 };
 console.log(flatten1([1, 2, 3, [1, 4, [7, 8]]]));
 
-
-const flatten2=list=>{
-  let res=[];
-  for(let i=0;i<list.length;i++){
-    if(Array.isArray(list[i])){
-      res.concat(...list[i])
-    }else{
-      res.push(list[i])
+const flatten2 = (list) => {
+  let res = [];
+  for (let i = 0; i < list.length; i++) {
+    if (Array.isArray(list[i])) {
+      res.concat(...list[i]);
+    } else {
+      res.push(list[i]);
     }
   }
   return res;
-}
+};
+
+const flatten3 = (arr) => {
+  arr = arr.flat();
+  for (let item of arr) {
+    if (Object.getPrototypeOf(arr) == "[object Array]") {
+      arr = flatten3(arr);
+    }
+  }
+  return arr;
+};
 /**
  * 数组转对象
  * 对象转数组
  * 数组转树
  * 树转数组
  */
+const arrayToObj = (list) => {
+  let obj = {};
+  console.log("11");
+  for (let i = 0; i < list.length; i++) {
+    let item = list[i];
+    if (Object.prototype.toString.call(item) == "[object Array]") {
+      obj[i] = arrayToObj(item);
+    } else {
+      obj[i] = item;
+    }
+  }
+  return obj;
+};
+console.log(arrayToObj(["a", "b", ["c", "d"]]));
+
+const objtoArray = (obj) => {
+  let res = [];
+  for (let key in obj) {
+    let item = obj[key];
+    let temp = [];
+    if (Object.prototype.toString.call(item) == "[object Object]") {
+      let a = objtoArray(item)[0];
+      temp = [key, a];
+    } else {
+      temp = [key, item];
+    }
+    res.push(temp);
+  }
+  return res;
+};
+console.log(objtoArray({ a: 1, b: 2, d: { e: { g: 5 } } }));
+
+//数组转为树
+const listToThree = (list) => {
+  let result = [];
+  let map = {};
+  list.forEach((item) => {
+    map[item.id] = item;
+  });
+  list.forEach((item) => {
+    let parent = map[item.parentId];
+    if (parent) {
+      (parent.children || (parent.children = [])).push(item);
+    } else {
+      result.push(item);
+    }
+  });
+  return result;
+};
+
+//二叉树转为数组
+const binaryThreeToList = (root) => {
+  let queue = [root];
+  let result = [];
+  while (queue.length > 0) {
+    let item = queue.shift(); //顶部元素
+    result.push({
+      id: item.id,
+      parentId: item.parentId,
+    });
+    let children = itme.children;
+    if (children) {
+      for (let i = 0; i < children.length; i++) {
+        queue.push(children[i]);
+      }
+    }
+  }
+  return result;
+};
 
 /**
  * 观察者
