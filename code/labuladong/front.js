@@ -21,7 +21,7 @@ function deepClone(target) {
   }
   return obj;
 }
-//卡拷贝
+//浅拷贝
 function shadowClone(target) {
   let obj;
   if (Object.toString.call(target) == "[object Array]") {
@@ -267,12 +267,69 @@ const binaryThreeToList = (root) => {
  * 观察者
  * 发布订阅者
  */
+class Subject{
+  constructor(name){
+    this.name=name;
+    this.state='正常的';
+    this.observer=[];
+  }
+  attach(o){
+    this.observer.push(o);
+  }
+  setNewState(state){
+    this.state=state;
+    this.observer.forEach(o=>o.update(this));
+  }
+}
+class Observer{
+  constructor(name){
+    this.name=name;
+  }
+  update(obj){
+    console.log(this.name,'被通知了 观察者的状态是',obj.state)
+  }
+}
+
+//发布订阅者模式 就多了事件的分发中心
+
+
 
 /**
  * promise.all
  * promise.race
  */
-
+Promise.prototype.all = function (promises) {
+  return new Promise((resove, reject) => {
+    let count = 0;
+    let arr = [];
+    for (let i = 0; i < promises.length; i++) {
+      promises[i].then(
+        (v) => {
+          count++;
+          arr[i] = v;
+          if (count == promises.length) resove(arr);
+        },
+        (r) => {
+          reject(r);
+        }
+      );
+    }
+  });
+};
+Promise.prototype.race = function (promises) {
+  return new Promise((resolve, reject) => {
+    for (let i = 0; i < promises.length; i++) {
+      promises[i].then(
+        (v) => {
+          resolve(v);
+        },
+        (r) => {
+          reject(r);
+        }
+      );
+    }
+  });
+};
 /**
  * 柯里化
  *
