@@ -267,32 +267,59 @@ const binaryThreeToList = (root) => {
  * 观察者
  * 发布订阅者
  */
-class Subject{
-  constructor(name){
-    this.name=name;
-    this.state='正常的';
-    this.observer=[];
+class Subject {
+  constructor(name) {
+    this.name = name;
+    this.state = "正常的";
+    this.observer = [];
   }
-  attach(o){
+  attach(o) {
     this.observer.push(o);
   }
-  setNewState(state){
-    this.state=state;
-    this.observer.forEach(o=>o.update(this));
+  setNewState(state) {
+    this.state = state;
+    this.observer.forEach((o) => o.update(this));
   }
 }
-class Observer{
-  constructor(name){
-    this.name=name;
+class Observer {
+  constructor(name) {
+    this.name = name;
   }
-  update(obj){
-    console.log(this.name,'被通知了 观察者的状态是',obj.state)
+  update(obj) {
+    console.log(this.name, "被通知了 观察者的状态是", obj.state);
   }
 }
 
 //发布订阅者模式 就多了事件的分发中心
-
-
+let eventEmitter = {
+  list: {}, //监听队列
+  on(event, fn) {
+    //订阅 fn都订阅了event
+    if (!this.list[event]) {
+      this.list[event] = [];
+    }
+    this.list[event].push(fn);
+  },
+  emittrt() {
+    let key = [].shift.call(arguments);
+    fns = this.list[key];
+    if (fns.length == 0 || !fns) {
+      return false;
+    }
+    fns.forEach((fn) => {
+      fn.apply(this, arguments);
+    });
+  },
+  remove(key, fn) {
+    let fns = this.list[key];
+    if (!fns) return false;
+    fns.forEach((item, i) => {
+      if (item == fn) {
+        fns.slice(i, 1);
+      }
+    });
+  },
+};
 
 /**
  * promise.all
@@ -334,3 +361,26 @@ Promise.prototype.race = function (promises) {
  * 柯里化
  *
  */
+
+const myJSONP = (url, data, callback) => {
+  return new Promise((resolve, rejected) => {
+    url += url.indexOf("?") === -1 ? "?" : "&";
+    url += `callback=${callback}`;
+    if (data) {
+      data.forEach((item) => {
+        url += `&${item}=${date[item]}`;
+      });
+    }
+    const jNode = document.createElement("script");
+    jNode.src = url;
+    window[callback] = (result) => {
+      if (result) {
+        resolve(result);
+      } else {
+        rejected("没有数据");
+      }
+      document.body.removeChild(jNode);
+    };
+    document.body.removeChild(jNode);
+  });
+};

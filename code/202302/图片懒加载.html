@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lazy load</title>
+  <style>
+    body {
+      height: 200vh;
+      padding: 0 30px;
+    }
+
+    .target {
+      width: 300px;
+      height: 300px;
+      margin-top: 2000px;
+    }
+  </style>
+</head>
+<body>
+  <img
+    id="target"
+    class="target"
+    data-src="https://s6.jpg.cm/2021/10/29/I3Pa3D.jpg"
+    src="https://img.alicdn.com/tps/i3/T1QYOyXqRaXXaY1rfd-32-32.gif"
+  />
+
+  <script>
+    /*
+    给目标元素指定一张占位图，将真实的图片链接存储在自定义属性中，通常是data-src；
+    监听与用户滚动行为相关的 scroll 事件，会频繁的操作DOM，需要降低 DOM 操作的频率可以采用函数节流的方式，函数节流能够确保在固定时间间隔只执行一次操作。
+    在 scroll 事件处理程序中利用 Element.getBoundingClientRect() 方法判断目标元素与视口的交叉状态；
+    当目标元素与视口的交叉状态大于0时，将真实的图片链接赋给目标元素 src 属性或者 backgroundImage 属性；
+    */
+    //利用IntersectionDbserver接口
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.src = entry.target.getAttribute('data-src')
+          entry.target.removeAttribute('data-src')
+          observer.unobserve(entry.target)
+        }
+      })
+    })
+
+    observer.observe(document.getElementById('target'))
+  </script>
+</body>
+</html>
